@@ -6,18 +6,37 @@ import { matchedData } from "express-validator";
 
 export const register = async (req, res) => {
   try {
-    const {username, email,password, first_name, last_name, phone} = matchedData(req);
+    const {username, email,password,user_id, first_name, last_name, phone} = matchedData(req);
 
     const userExist = await UserModel.findOne({
       where:{
         email,
       },
     });
-    
+
+    if (userExist) {
+      return res.status(400).json({
+        message: "el email ya esta registrado",
+      });
+    }
+
     // TODO: 1. Hashear la password antes de guardarla (hashPassword).
     const hashedPassword = await hashPassword(password);
     // TODO: 2. Crear el user y su profile asociado.
+    const user = await UserModel.create({
+      username,
+      email,
+      password: hashedPassword,
+    });
+
+    await ProfileModel.create({
+      user_id: user.id,
+      first_name,
+      last_name,
+      phone,
+    });
     // TODO: 3. Responder con código 201, un mensaje de éxito y devolver el usuario sin la password.
+    return res.status(201).json({message:"se creo el usuario correctamente", user});
   } catch (error) {
     console.log(error);
     return res.status(500).json({ msg: "Error interno del servidor" });
@@ -27,8 +46,32 @@ export const register = async (req, res) => {
 export const login = async (req, res) => {
   try {
     // TODO: 1. Buscar el user por email y comparar la password (comparePassword).
+    const user = await UserModel.findOne({
+      where:{
+        email,
+      },
+    });
+
+    const validPassword = await comparePassword(
+      password,
+      user.password
+    );
     // TODO: 2. Firmar un JWT con el id y el role del user (signToken).
+  
     // TODO: 3. Guardar el token en una cookie httpOnly llamada "token", responder con código 200 y un mensaje de éxito.
+ const token = generateToken({
+      idUser: user.id,
+    });
+  
+    res.cookie("token", token,{
+      httpOnly: true,
+      maxAge: 100 * 60 * 60,
+      semeSite: "lax",
+    });
+
+    return res.status(200).json({
+      message:"login exitoso",
+    });
     // ? Considerar qué mensaje devolver ante credenciales inválidas.
   } catch (error) {
     console.log(error);

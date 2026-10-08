@@ -21,9 +21,9 @@ export const createProject = async (req, res) => {
     include:[
       {
         Model:TechnologyModel,
-        as:
+        as: "technologies",
       }
-    ]
+    ];
 
     // TODO: 3. Responder con código 201 y el project con sus technologies y su leader.
   } catch (error) {
