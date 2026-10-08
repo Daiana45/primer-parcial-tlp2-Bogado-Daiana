@@ -1,16 +1,30 @@
 // * ARCHIVO A COMPLETAR
+import { matchedData } from "express-validator";
 import {
   ProjectModel,
   ProjectTechnologyModel,
   TechnologyModel,
   UserModel,
 } from "../models/index.js";
+import { Model } from "sequelize";
 
 export const createProject = async (req, res) => {
   try {
     // TODO: 1. Crear el project con los datos del body que ya pasaron la validación.
+    const data = matchedData(req);
+    const project = await ProjectModel.create({
+      ...data,
+      user_id: req.user.id,
+    })
     // ? Revisar de dónde debe salir el leader del proyecto.
     // TODO: 2. Asociar al project las technologies recibidas.
+    include:[
+      {
+        Model:TechnologyModel,
+        as:
+      }
+    ]
+
     // TODO: 3. Responder con código 201 y el project con sus technologies y su leader.
   } catch (error) {
     console.log(error);
