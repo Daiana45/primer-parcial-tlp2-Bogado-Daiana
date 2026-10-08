@@ -1,0 +1,36 @@
+{
+  "name": "primer-parcial-gestion-proyectos-software",
+  "version": "1.0.0",
+  "description": "Sistema de Gestión de Proyectos de Software (Express + Sequelize/MySQL)",
+  "type": "module",
+  "scripts": {
+    "dev": "nodemon app.js",
+    "start": "node app.js"
+  },
+  "dependencies": {
+    "bcrypt": "^6.0.0",
+    "cookie-parser": "^1.4.7",
+    "cors": "^2.8.6",
+    "dotenv": "^16.6.1",
+    "express": "^4.22.3",
+    "express-validator": "^7.3.2",
+    "jsonwebtoken": "^9.0.3",
+    "mysql2": "^3.24.5",
+    "sequelize": "^6.37.8"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.4"
+  },
+  "main": "app.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Daiana45/primer-parcial-tlp2-Bogado-Daiana.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Daiana45/primer-parcial-tlp2-Bogado-Daiana/issues"
+  },
+  "homepage": "https://github.com/Daiana45/primer-parcial-tlp2-Bogado-Daiana#readme"
+}
